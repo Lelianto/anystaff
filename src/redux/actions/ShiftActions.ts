@@ -14,3 +14,10 @@ export const postShiftAction = (posts: PostShift[]): ShiftActionTypes => {
         payload: posts
     };
 };
+
+export const addCalendarData = (posts: PostShift[]): ShiftActionTypes => {
+    return {
+        type: 'ADD_CALENDAR_DATA',
+        payload: posts
+    };
+};

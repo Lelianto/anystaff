@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../redux/store';
 
 import { getShifts, postShift } from '../redux/effects/Shifts';
 import { Shift } from '../redux/interfaces/Shift';
+import App from './App';
+import { items } from './day-data';
 
-export default function ShiftPage() {
+const ShiftPage = () => {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(getShifts());
@@ -35,18 +37,29 @@ export default function ShiftPage() {
 		console.log('result data', result)
 	}
 	return (
-		<div>
-			<div className="container">
-				{/* <div>{shiftItems}</div> */}
-				<div className="row">
-					<div className="col-12">
-						Name <input type="text" onChange={(e:any)=>setNameShift(e.target.value)}/>
-					</div>
-					<button onClick={addShift}>
-						Add
-					</button>
-				</div>
-			</div>
-		</div>
+		<App items={items} shifts={shifts}/>
 	)
 }
+		// <div>
+		// 	<div className="albums">
+		// 	</div>
+		// 		{/* <div>{shiftItems}</div> */}
+		// 	<div className="container">
+		// 		<div className="row">
+		// 			{/* <div className="col-12">
+		// 				Name <input type="text" onChange={(e:any)=>setNameShift(e.target.value)}/>
+		// 			</div>
+		// 			<button onClick={addShift}>
+		// 				Add
+		// 			</button> */}
+
+		// 		</div>
+		// 		{/* <div className="row">
+		// 			<div className="col-12">
+		// 				BOX
+		// 			</div>
+		// 		</div> */}
+		// 	</div>
+		// </div>
+
+export default ShiftPage;

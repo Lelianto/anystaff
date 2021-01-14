@@ -5,7 +5,8 @@ import {
 
 const initialStateShifts: ShiftsStateType = {
 	shifts: [],
-	postShift: []
+	postShift: [],
+	calendarData:[]
 }
 
 export const getShiftsReducer = (
@@ -17,6 +18,16 @@ export const getShiftsReducer = (
 			return {
 				...state,
 				shifts: action.payload
+			};
+		case 'POST_SHIFTS':
+			return {
+				...state,
+				postShift: action.payload
+			};
+		case 'ADD_CALENDAR_DATA':
+			return {
+				...state,
+				calendarData: action.payload
 			};
 		default:
 			return state;

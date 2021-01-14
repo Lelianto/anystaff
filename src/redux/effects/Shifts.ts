@@ -1,5 +1,5 @@
 
-import { getShiftsAction, postShiftAction } from '../actions/ShiftActions';
+import { getShiftsAction, postShiftAction, addCalendarData } from '../actions/ShiftActions';
 import { Dispatch } from 'redux';
 import { ShiftActionTypes } from '../types/ShiftTypes';
 
@@ -16,6 +16,12 @@ export const getShifts = () => {
 		});
 	};
 };
+
+export const setCalendarData = (req: any) => {
+	return function (dispatch: Dispatch<ShiftActionTypes>) { 
+		dispatch(addCalendarData(req));
+	}
+}
 
 export const postShift = (req: any) => {
 	return function (dispatch: Dispatch<ShiftActionTypes>) {
