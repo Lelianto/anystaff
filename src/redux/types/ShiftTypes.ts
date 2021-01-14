@@ -1,13 +1,7 @@
-import { Shift } from '../interfaces/Shift';
+import { Shift, PostShift } from '../interfaces/Shift';
 
-export const GET_SHIFTS = 'GET_SHIFTS';
-
-export interface GetShiftsStateType {
+export interface ShiftsStateType {
     shifts: Shift[];
+    postShift: PostShift[]
 }
-
-interface GetShiftsActionType {
-    type: typeof GET_SHIFTS;
-    payload: Shift[];
-}
-export type ShiftActionTypes = GetShiftsActionType;
+export type ShiftActionTypes = { type: "GET_SHIFTS" | "POST_SHIFTS"; payload: any };
