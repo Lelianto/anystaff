@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import { createSelectable, TSelectableItemProps } from 'react-selectable-fast';
-import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/locale/id';
 
