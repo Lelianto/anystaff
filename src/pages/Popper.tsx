@@ -20,7 +20,6 @@ const AddCalendarPopper = ({ anchorEl, handleClose, handleClick, selected }: Pro
 		dispatch(getShifts())
 	}, [dispatch]);
 
-	const shifts = useSelector((state: AppState) => state.shifts);
 	const [nameShift, setNameShift] = useState<string>('')
 	const [disableSend, setDisableSend] = useState<boolean>(false)
 
@@ -37,7 +36,7 @@ const AddCalendarPopper = ({ anchorEl, handleClose, handleClick, selected }: Pro
 					endTime: endHour,
 					date: content.day * 1000
 				}
-				const result: any = dispatch(postShift(data))
+				dispatch(postShift(data))
 				status += 1
 			})
 			if (selected.length === status) {

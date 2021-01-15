@@ -22,7 +22,7 @@ const DISABLED_CARD_DAYS = [2, 3, 4, 5, 6, 7, 8]
 const DISABLED_LAST_HOUR = [193]
 
 export const Card = createSelectable<TAlbumProps>((props: TSelectableItemProps & TAlbumProps) => {
-	const { selectableRef, contentData, choosenData, calendarData, shifts, handleChoosenData, isSelected, isSelecting, year, listData, setListData } = props
+	const { selectableRef, contentData, choosenData, shifts, handleChoosenData, isSelected, isSelecting, year, listData, setListData } = props
 
 	const classNames = [
 		'item',

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
 import { TAlbumItem } from './day-data'
 import { Card } from './Card'
 import '../styles/index.css'
@@ -23,7 +22,6 @@ type TListProps = {
 // }
 
 export const List = (props: TListProps) => {
-	const dispatch = useDispatch()
 	const { items, shifts, calendarData } = props
 
 	const [listData, setListData] = useState<listItems[]>([])
