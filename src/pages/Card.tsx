@@ -13,7 +13,8 @@ type TAlbumProps = {
 	shifts: any,
 	handleChoosenData: any,
 	calendarData: any,
-	choosenData?:any
+	choosenData?: any,
+	contentData?:any
 }
 
 const DISABLED_CARD_YEARS = [1, 2, 3, 4, 5, 6, 7, 8, 169 ]
@@ -22,7 +23,7 @@ const DISABLED_CARD_DAYS = [2, 3, 4, 5, 6, 7, 8]
 const DISABLED_LAST_HOUR = [193]
 
 export const Card = createSelectable<TAlbumProps>((props: TSelectableItemProps & TAlbumProps) => {
-	const { selectableRef, choosenData, calendarData, shifts, handleChoosenData, isSelected, isSelecting, year, listData, setListData } = props
+	const { selectableRef, contentData, choosenData, calendarData, shifts, handleChoosenData, isSelected, isSelecting, year, listData, setListData } = props
 
 	const classNames = [
 		'item',
@@ -68,7 +69,6 @@ export const Card = createSelectable<TAlbumProps>((props: TSelectableItemProps &
 			endHour: Math.floor(listData.length/7)+1
 		}
 		setListData(data)
-		// console.log('data diri', listData)
 
 		if (listData.length !== 0) {
 			if (shifts.length !== 0) {
@@ -76,7 +76,7 @@ export const Card = createSelectable<TAlbumProps>((props: TSelectableItemProps &
 					let startTime = data.day * 1000 + data.startHour * 3600 * 1000;
 					shifts.map((shift: any, i: any) => {
 						if ((data.day*1000===shift.date) && (shift.startTime === startTime)) {
-							handleChoosenData(data.year)
+							handleChoosenData(data.year, shift)
 						}
 					})
 				})
@@ -89,55 +89,65 @@ export const Card = createSelectable<TAlbumProps>((props: TSelectableItemProps &
 	return (
 		<div id="content-data" ref={selectableRef} className={classNames}>
 			{
-				DISABLED_CAUSE_TIME.includes(year) ?
-					<div className="time">
-						<div>
-							{`${1 * Math.floor(year / 8) > 9 ? `${1 * Math.floor(year / 8)}` : `0${1 * Math.floor(year / 8)}`}:00`}
+				choosenData.includes(year) ?
+					<div>
+						<div className="choosen-one">
+							{contentData[choosenData.indexOf(year)].name}
 						</div>
 					</div>
 					:
 					<div>
+
 						{
-							DISABLED_CARD_DAYS.includes(year) ? 
-								<div>
+							DISABLED_CAUSE_TIME.includes(year) ?
+								<div className="time">
 									<div>
-										{dayOfWeek[DISABLED_CARD_DAYS.indexOf(year)]},
-									</div>
-									<div>
-										{dateOfWeek[DISABLED_CARD_DAYS.indexOf(year)]}
+										{`${1 * Math.floor(year / 8) > 9 ? `${1 * Math.floor(year / 8)}` : `0${1 * Math.floor(year / 8)}`}:00`}
 									</div>
 								</div>
 								:
 								<div>
-									{/* {
-										dataDate.map((position: any, i: any) => {
-											if (position.year === year) {
-												return (
-													<div id={`${position.day * 1000 + position.startHour * 3600 * 1000}`}>
-														<div>
-															{position.index}
-														</div>
-														<div>
-															Day &nbsp;
-															<Moment date={position.day * 1000 + position.startHour*3600*1000} format="DD:MM:YYYY HH:mm"/>	
-															<div>{position.day}</div>
-														</div>
-														<div>
-															Hour <span>{position.startHour}</span> - <span>{position.endHour}</span>
-														</div>
-													</div>
-												)
-											} else {
-												<div></div>
-											}
-										})
-									} */}
+									{
+										DISABLED_CARD_DAYS.includes(year) ? 
+											<div>
+												<div>
+													{dayOfWeek[DISABLED_CARD_DAYS.indexOf(year)]},
+												</div>
+												<div>
+													{dateOfWeek[DISABLED_CARD_DAYS.indexOf(year)]}
+												</div>
+											</div>
+											:
+											<div>
+												{/* {
+													dataDate.map((position: any, i: any) => {
+														if (position.year === year) {
+															return (
+																<div id={`${position.day * 1000 + position.startHour * 3600 * 1000}`}>
+																	<div>
+																		{position.index}
+																	</div>
+																	<div>
+																		Day &nbsp;
+																		<Moment date={position.day * 1000 + position.startHour*3600*1000} format="DD:MM:YYYY HH:mm"/>	
+																		<div>{position.day}</div>
+																	</div>
+																	<div>
+																		Hour <span>{position.startHour}</span> - <span>{position.endHour}</span>
+																	</div>
+																</div>
+															)
+														} else {
+															<div></div>
+														}
+													})
+												} */}
+											</div>
+									}
 								</div>
-						 }
+						}
 					</div>
 			}
-			<div>
-			</div>
 		</div>
 	)
 })

@@ -30,13 +30,18 @@ export const List = (props: TListProps) => {
 
 	const [listData, setListData] = useState<listItems[]>([])
 	const [choosenData, setChoosenData] = useState<number[]>([])
+	const [contentData, setContentData] = useState<any[]>([])
 
-	const handleChoosenData = (year: number) => {
+	const handleChoosenData = (year: number, shift: any) => {
+		console.log('data shift', shift)
 		let choosen = choosenData
+		let content = contentData
 		if (!choosenData.includes(year)) {
 			choosen.push(year)
+			content.push(shift)
 		}
 		setChoosenData(choosen)
+		setContentData(content)
 	}
 
 	const handleTimeData = (data: any) => {
@@ -52,13 +57,13 @@ export const List = (props: TListProps) => {
 			
 		}
 		setListData(list)
-		// dispatch(setCalendarData(list))
 	}
+
 	return (
 		<div className="flex-center">
 			<div className="albums">
 				{items.map(item => (
-					<Card key={item.year} choosenData={choosenData} calendarData={calendarData} handleChoosenData={handleChoosenData} shifts={shifts} player={item.player} year={item.year} listData={listData} setListData={handleTimeData} />
+					<Card key={item.year} contentData={contentData} choosenData={choosenData} calendarData={calendarData} handleChoosenData={handleChoosenData} shifts={shifts} player={item.player} year={item.year} listData={listData} setListData={handleTimeData} />
 				))}
 			</div>
 		</div>

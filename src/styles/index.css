@@ -67,6 +67,11 @@
   font-size: 25px;
 }
 
+.choosen-one {
+  color: white;
+  font-size: 30px;
+}
+
 .item .tick {
   position: absolute;
   top: 0;
