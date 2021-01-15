@@ -1,20 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPosts } from '../redux/effects/Posts';
-import { Post } from '../redux/interfaces/Post';
 import { AppState } from '../redux/store';
 
-export default function Posts() {
+import { getShifts, postShift } from '../redux/effects/Shifts';
+import { Shift } from '../redux/interfaces/Shift';
+import App from './App';
+import { items } from './day-data';
+
+const ShiftPage = () => {
 	const dispatch = useDispatch();
 	useEffect(() => {
-		dispatch(getPosts());
+		dispatch(getShifts());
 	}, [dispatch]);
-	const posts = useSelector((state: AppState) => state.posts);
-	const postItems = posts.posts.map((post: Post) => (
-		<div key={post.id}>
-			<h1>{post.title}</h1>
-			<p>{post.body}</p>
-		</div>
-	));
-	return <div>{postItems}</div>;
+
+	const shifts = useSelector((state: AppState) => state.shifts);
+
+	return (
+		<App items={items} shifts={shifts.shifts} calendarData={shifts.calendarData}/>
+	)
 }
+
+export default ShiftPage;
