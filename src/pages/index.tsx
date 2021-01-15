@@ -1,9 +1,8 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../redux/store';
 
-import { getShifts, postShift } from '../redux/effects/Shifts';
-import { Shift } from '../redux/interfaces/Shift';
+import { getShifts } from '../redux/effects/Shifts';
 import App from './App';
 import { items } from './day-data';
 

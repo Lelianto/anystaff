@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { createSelectable, TSelectableItemProps } from 'react-selectable-fast';
 import moment from 'moment';
 import 'moment/locale/id';
-import Moment from 'react-moment';
 
 type TAlbumProps = {
 	player: string

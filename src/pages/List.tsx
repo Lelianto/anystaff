@@ -1,10 +1,8 @@
-import React, { memo, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
 import { TAlbumItem } from './day-data'
 import { Card } from './Card'
 import '../styles/index.css'
-import { setCalendarData } from '../redux/effects/Shifts';
-
 
 interface listItems {
 	year: any,
