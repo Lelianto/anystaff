@@ -39,10 +39,10 @@ const ShiftPage = () => {
 		}
 		
 		const result: any = dispatch(postShift(data))
-		console.log('result data', result)
 	}
+	console.log('result data', shifts.calendarData)
 	return (
-		<App items={items} shifts={shifts}/>
+		<App items={items} shifts={shifts.shifts} calendarData={shifts.calendarData}/>
 	)
 }
 		// <div>

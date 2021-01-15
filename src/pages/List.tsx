@@ -7,7 +7,8 @@ import '../styles/index.css'
 
 type TListProps = {
 	items?: TAlbumItem[],
-	shifts?: any[]
+	shifts: any[],
+	calendarData:any[]
 }
 
 interface listItems {
@@ -20,11 +21,19 @@ interface listItems {
 
 export const List = memo((props: TListProps) => {
 	const dispatch = useDispatch()
-	const { items, shifts } = props
+	const { items, shifts, calendarData } = props
 
 	const [listData, setListData] = useState<listItems[]>([])
-
+	const [choosenData, setChoosenData] = useState<number[]>([])
 	// console.log(shifts)
+
+	const handleChoosenData = (year: number) => {
+		let choosen = choosenData
+		if (!choosenData.includes(year)) {
+			choosen.push(year)
+		}
+		setChoosenData(choosen)
+	}
 
 	let contentDatas: any =[]
 
@@ -33,9 +42,8 @@ export const List = memo((props: TListProps) => {
 		
 		let list: any[] = []
 		let year: any[] = []
-		if (contentDatas.length !== 0) {
-			contentDatas.forEach((content: { year: any; }, index: any) => {
-				year.push(content.year)
+		if (calendarData.length !== 0) {
+			calendarData.forEach((content: { year: any; }, index: any) => {
 				list.push(content)
 			})
 		}
@@ -55,9 +63,7 @@ export const List = memo((props: TListProps) => {
 			list.push(dataSend)
 		}
 		contentDatas = list
-	}
-	if (contentDatas.length !== 0) {
-		setListData(contentDatas)
+		// console.log('list', list)
 		dispatch(setCalendarData(contentDatas))
 	}
 	return (
@@ -70,7 +76,7 @@ export const List = memo((props: TListProps) => {
 					items ? 
 						<div>
 							{items.map(item => (
-								<Card key={item.year} player={item.player} year={item.year} listData={listData} handleTimeData={handleTimeData} />
+								<Card key={item.year} calendarData={calendarData} contentDatas={contentDatas} shifts={shifts} player={item.player} year={item.year} listData={listData} handleTimeData={handleTimeData} handleChoosenData={handleChoosenData}/>
 							))}
 						</div>
 						:

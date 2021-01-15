@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { createSelectable, TSelectableItemProps } from 'react-selectable-fast';
 import moment from 'moment';
 import 'moment/locale/id';
+import { Shift } from '../redux/interfaces/Shift';
 
 interface listItems {
 	year: any,
@@ -16,7 +17,11 @@ type TAlbumProps = {
 	player: string
 	year: number,
 	listData: listItems[],
-	handleTimeData:any
+	handleTimeData: any,
+	shifts: any[],
+	handleChoosenData: any,
+	contentDatas?: any,
+	calendarData: any[]
 }
 
 const DISABLED_CARD_YEARS = [1, 2, 3, 4, 5, 6, 7, 8, 169 ]
@@ -25,7 +30,9 @@ const DISABLED_CARD_DAYS = [2, 3, 4, 5, 6, 7, 8]
 const DISABLED_LAST_HOUR = [193]
 
 export const Card = createSelectable<TAlbumProps>((props: TSelectableItemProps & TAlbumProps) => {
-	const { selectableRef, isSelected, isSelecting, year, listData, handleTimeData, player } = props
+	const { selectableRef, contentDatas, isSelected, isSelecting, year, listData, handleTimeData, player, shifts, handleChoosenData, calendarData } = props
+	
+	const [dataChoosen, setDataChoosen] = useState<object[]>([])
 
 	const classNames = [
 		'item',
@@ -64,14 +71,25 @@ export const Card = createSelectable<TAlbumProps>((props: TSelectableItemProps &
 		let send = [] 
 		let data = {
 			year: year,
-			index: listData.length,
-			day: timestamp[listData.length%7],
-			startHour: Math.floor(listData.length / 7),
-			endHour: Math.floor(listData.length / 7)+1
+			index: contentDatas.length,
+			day: timestamp[contentDatas.length%7],
+			startHour: Math.floor(contentDatas.length / 7),
+			endHour: Math.floor(contentDatas.length / 7)+1
 		}
 
 		send.push(data)
 		handleTimeData(send)
+
+		// console.log('list hari', listDay)
+		if (shifts.length !== 0) {
+			shifts.map((shift, i) => {
+				// console.log('time local', contentDatas)
+				// console.log('time choosen', shift.startTime)
+				if (timestamp[listData.length % 7] * 1000 === shift.date) {
+					handleChoosenData(year)
+				}
+			})
+		}
 	}
 	return (
 		<div id="content-data" ref={selectableRef} className={classNames}>
