@@ -2,10 +2,11 @@
 import { getShiftsAction, postShiftAction, addCalendarData } from '../actions/ShiftActions';
 import { Dispatch } from 'redux';
 import { ShiftActionTypes } from '../types/ShiftTypes';
+import env from "react-dotenv";
 
 export const getShifts = () => {
 	return function (dispatch: Dispatch<ShiftActionTypes>) {
-		const SHIFT_URL = 'http://localhost:9000/api';
+		const SHIFT_URL: any = env.SHIFT_API;
 		fetch(SHIFT_URL, {
 			method: 'GET'
 		})
@@ -25,7 +26,7 @@ export const setCalendarData = (req: any) => {
 
 export const postShift = (req: any) => {
 	return function (dispatch: Dispatch<ShiftActionTypes>) {
-		const SHIFT_URL = 'http://localhost:9000/api';
+		const SHIFT_URL: any = env.SHIFT_API;
 		fetch(SHIFT_URL, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -33,7 +34,6 @@ export const postShift = (req: any) => {
 		})
 			.then(res => res.json())
 			.then(data => {
-				console.log('data sebenarnya', data)
 				dispatch(postShiftAction(data));
 				return data;
 			}).catch((error) => {

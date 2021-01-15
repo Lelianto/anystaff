@@ -17,8 +17,6 @@ export class Counters extends Component {
 			selectedItems,
 			selectingItems: [],
 		})
-
-		console.log(`Finished selection ${selectedItems.length}`)
 	}
 
 	render() {

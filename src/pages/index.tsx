@@ -14,52 +14,10 @@ const ShiftPage = () => {
 	}, [dispatch]);
 
 	const shifts = useSelector((state: AppState) => state.shifts);
-	const [nameShift, setNameShift] = useState<string>('')
-	
-	const shiftItems = shifts.shifts.map((post: Shift) => (
-		<div style={{textAlign:"left"}} key={post.shiftId}>
-			<h1>{post.name}</h1>
-			<p>{post.date}</p>
-			<p>{post.startTime}</p>
-			<p>{post.endTime}</p>
-		</div>
-	));
-	
-	const addShift = async () => {
-		let data: object = {
-			name: nameShift,
-			startTime: new Date().getTime() + 1000,
-			endTime: new Date().getTime() + 100000,
-			date: new Date().getTime() - 100000
-		}
-		
-		const result: any = dispatch(postShift(data))
-		console.log('result data', result)
-	}
+
 	return (
 		<App items={items} shifts={shifts.shifts} calendarData={shifts.calendarData}/>
 	)
 }
-		// <div>
-		// 	<div className="albums">
-		// 	</div>
-		// 		{/* <div>{shiftItems}</div> */}
-		// 	<div className="container">
-		// 		<div className="row">
-		// 			{/* <div className="col-12">
-		// 				Name <input type="text" onChange={(e:any)=>setNameShift(e.target.value)}/>
-		// 			</div>
-		// 			<button onClick={addShift}>
-		// 				Add
-		// 			</button> */}
-
-		// 		</div>
-		// 		{/* <div className="row">
-		// 			<div className="col-12">
-		// 				BOX
-		// 			</div>
-		// 		</div> */}
-		// 	</div>
-		// </div>
 
 export default ShiftPage;

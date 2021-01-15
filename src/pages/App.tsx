@@ -64,11 +64,13 @@ class App extends Component<TAppProps, TAppState> {
 		let selected: any[] = []
 		if (selectedItems.length !== 0) {
 			selectedItems.map((data, index) => {
-				this.props.shifts.calendarData.map((content: any, i: any) => {
-					if (content.year === data.props.year) {
-						selected.push(content)
-					}
-				})
+				if (this.props.shifts && this.props.shifts.calendarData) {
+					this.props.shifts.calendarData.map((content: any, i: any) => {
+						if (content.year === data.props.year) {
+							selected.push(content)
+						}
+					})
+				}
 			})
 	
 			this.setState({

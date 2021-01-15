@@ -33,7 +33,6 @@ export const List = (props: TListProps) => {
 	const [contentData, setContentData] = useState<any[]>([])
 
 	const handleChoosenData = (year: number, shift: any) => {
-		console.log('data shift', shift)
 		let choosen = choosenData
 		let content = contentData
 		if (!choosenData.includes(year)) {
