@@ -37,7 +37,7 @@ const ShiftPage = () => {
 		console.log('result data', result)
 	}
 	return (
-		<App items={items} shifts={shifts}/>
+		<App items={items} shifts={shifts.shifts} calendarData={shifts.calendarData}/>
 	)
 }
 		// <div>

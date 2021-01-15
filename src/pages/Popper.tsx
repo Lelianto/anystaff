@@ -12,9 +12,9 @@ interface Props {
 	anchorEl?: any,
 	handleClose?: any,
 	handleClick?: any,
-	selected?:any[]
-} 
-const AddCalendarPopper = ({ anchorEl, handleClose, handleClick, selected}:Props) =>{
+	selected?: any[]
+}
+const AddCalendarPopper = ({ anchorEl, handleClose, handleClick, selected }: Props) => {
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(getShifts())
@@ -22,17 +22,29 @@ const AddCalendarPopper = ({ anchorEl, handleClose, handleClick, selected}:Props
 
 	const shifts = useSelector((state: AppState) => state.shifts);
 	const [nameShift, setNameShift] = useState<string>('')
+	const [disableSend, setDisableSend] = useState<boolean>(false)
 
 	const addShift = async () => {
-		let data: object = {
-			name: nameShift,
-			startTime: new Date().getTime() + 1000,
-			endTime: new Date().getTime() + 100000,
-			date: new Date().getTime() - 100000
+		setDisableSend(true)
+		if (selected && selected.length !== 0 && nameShift) {
+			let status = 0
+			selected.map((content, index) => {
+				let startTime = content.day * 1000 + content.startHour * 3600 * 1000
+				let endHour = content.day * 1000 + content.endHour * 3600 * 1000
+				let data: object = {
+					name: nameShift,
+					startTime: startTime,
+					endTime: endHour,
+					date: content.day * 1000
+				}
+				const result: any = dispatch(postShift(data))
+				status += 1
+			})
+			if (selected.length === status) {
+				setDisableSend(false)
+				dispatch(getShifts())
+			}
 		}
-
-		// const result: any = dispatch(postShift(data))
-		console.log('result data', selected)
 	}
 	return (
 		<div>
@@ -59,7 +71,7 @@ const AddCalendarPopper = ({ anchorEl, handleClose, handleClick, selected}:Props
 							<TextField id="outlined-basic" onChange={(e) => setNameShift(e.target.value)} label="Input Your Activity" variant="outlined" />
 						</div>
 						<div className="button-setting">
-							<Button variant="contained" color="primary" onClick={addShift}> Save Schedule </Button>
+							<Button disabled={disableSend} variant="contained" color="primary" onClick={addShift}> Save Schedule </Button>
 						</div>
 					</div>
 				</div>

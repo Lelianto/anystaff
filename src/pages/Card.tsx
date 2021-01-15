@@ -3,12 +3,17 @@ import React, { useState } from 'react';
 import { createSelectable, TSelectableItemProps } from 'react-selectable-fast';
 import moment from 'moment';
 import 'moment/locale/id';
+import Moment from 'react-moment';
 
 type TAlbumProps = {
 	player: string
 	year: number,
 	listData: any,
-	setListData:any
+	setListData: any,
+	shifts: any,
+	handleChoosenData: any,
+	calendarData: any,
+	choosenData?:any
 }
 
 const DISABLED_CARD_YEARS = [1, 2, 3, 4, 5, 6, 7, 8, 169 ]
@@ -17,10 +22,11 @@ const DISABLED_CARD_DAYS = [2, 3, 4, 5, 6, 7, 8]
 const DISABLED_LAST_HOUR = [193]
 
 export const Card = createSelectable<TAlbumProps>((props: TSelectableItemProps & TAlbumProps) => {
-	const { selectableRef, isSelected, isSelecting, year, listData, setListData } = props
+	const { selectableRef, choosenData, calendarData, shifts, handleChoosenData, isSelected, isSelecting, year, listData, setListData } = props
 
 	const classNames = [
 		'item',
+		choosenData && choosenData.includes(year) && 'not-selectable',
 		(DISABLED_CARD_YEARS.includes(year) || DISABLED_CAUSE_TIME.includes(year) || DISABLED_LAST_HOUR.includes(year)) && 'un-selectable',
 		isSelecting && !(DISABLED_CARD_YEARS.includes(year) || DISABLED_CAUSE_TIME.includes(year) || DISABLED_LAST_HOUR.includes(year)) && 'selected',
 		isSelected && !(DISABLED_CARD_YEARS.includes(year) || DISABLED_CAUSE_TIME.includes(year) || DISABLED_LAST_HOUR.includes(year)) && 'selected',
@@ -58,13 +64,27 @@ export const Card = createSelectable<TAlbumProps>((props: TSelectableItemProps &
 			year: year,
 			index: listData.length,
 			day: timestamp[listData.length%7],
-			startHour: Math.floor(listData.length / 7),
-			endHour: Math.floor(listData.length / 7)+1
+			startHour: Math.floor(listData.length/7),
+			endHour: Math.floor(listData.length/7)+1
 		}
 		setListData(data)
-	}
+		// console.log('data diri', listData)
 
-	let dataDate = listData
+		if (listData.length !== 0) {
+			if (shifts.length !== 0) {
+				listData.map((data: any, i: any) => {
+					let startTime = data.day * 1000 + data.startHour * 3600 * 1000;
+					shifts.map((shift: any, i: any) => {
+						if ((data.day*1000===shift.date) && (shift.startTime === startTime)) {
+							handleChoosenData(data.year)
+						}
+					})
+				})
+			}
+		}
+
+		
+	}
 
 	return (
 		<div id="content-data" ref={selectableRef} className={classNames}>

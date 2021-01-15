@@ -9,7 +9,8 @@ import '../styles/index.css'
 
 type TAppProps = {
 	items: TAlbumItem[],
-	shifts?:any
+	shifts?: any,
+	calendarData?:any
 }
 
 type TAppState = {
@@ -17,7 +18,7 @@ type TAppState = {
 	reversed: boolean
 	showSelectableGroup: boolean,
 	anchorEl?: boolean | null | undefined,
-	selected?: any[]
+	selected?: any[],
 }
 
 class App extends Component<TAppProps, TAppState> {
@@ -61,18 +62,20 @@ class App extends Component<TAppProps, TAppState> {
 		}
 
 		let selected: any[] = []
-		selectedItems.map((data, index) => {
-			this.props.shifts.calendarData.map((content: any, i: any) => {
-				if (content.year === data.props.year) {
-					selected.push(content)
-				}
+		if (selectedItems.length !== 0) {
+			selectedItems.map((data, index) => {
+				this.props.shifts.calendarData.map((content: any, i: any) => {
+					if (content.year === data.props.year) {
+						selected.push(content)
+					}
+				})
 			})
-		})
-
-		this.setState({
-			selected: selected
-		})
-		this.handleClick()
+	
+			this.setState({
+				selected: selected
+			})
+			this.handleClick()
+		}
 	}
 
 	handleSelectedItemUnmount = (_unmountedItem: any, selectedItems: string | any[]) => {
@@ -99,7 +102,7 @@ class App extends Component<TAppProps, TAppState> {
 
 	render() {
 		
-		const { items } = this.props
+		const { items, shifts, calendarData } = this.props
 		const { disableFirstRow, reversed, showSelectableGroup } = this.state
 
 		const itemsToRender = disableFirstRow ? items.slice(5) : items
@@ -123,7 +126,7 @@ class App extends Component<TAppProps, TAppState> {
 							onSelectedItemUnmount={this.handleSelectedItemUnmount}
 							ignoreList={['.not-selectable', '.un-selectable']}
 						>
-							<List items={orderedItems} />
+							<List items={orderedItems} shifts={shifts} calendarData={calendarData}/>
 						</SelectableGroup>
 					)}
 				</div>
