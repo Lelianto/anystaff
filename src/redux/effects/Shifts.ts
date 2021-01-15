@@ -13,7 +13,9 @@ export const getShifts = () => {
 		.then(data => {
 			dispatch(getShiftsAction(data));
 			return data;
-		});
+		}).catch(error => {
+			console.log('error', error)
+		})
 	};
 };
 

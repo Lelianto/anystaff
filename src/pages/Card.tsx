@@ -4,11 +4,19 @@ import { createSelectable, TSelectableItemProps } from 'react-selectable-fast';
 import moment from 'moment';
 import 'moment/locale/id';
 
+interface listItems {
+	year: any,
+	index: any,
+	day: number,
+	startHour: number,
+	endHour: number
+}
+
 type TAlbumProps = {
 	player: string
 	year: number,
-	listData: any,
-	setListData:any
+	listData: listItems[],
+	handleTimeData:any
 }
 
 const DISABLED_CARD_YEARS = [1, 2, 3, 4, 5, 6, 7, 8, 169 ]
@@ -17,7 +25,7 @@ const DISABLED_CARD_DAYS = [2, 3, 4, 5, 6, 7, 8]
 const DISABLED_LAST_HOUR = [193]
 
 export const Card = createSelectable<TAlbumProps>((props: TSelectableItemProps & TAlbumProps) => {
-	const { selectableRef, isSelected, isSelecting, year, listData, setListData } = props
+	const { selectableRef, isSelected, isSelecting, year, listData, handleTimeData, player } = props
 
 	const classNames = [
 		'item',
@@ -28,7 +36,6 @@ export const Card = createSelectable<TAlbumProps>((props: TSelectableItemProps &
 		.filter(Boolean)
 		.join(' ')
 
-	
 	const [dayOfWeek,setDayOfWeek] = useState<string[]>([])
 	const [dateOfWeek, setDateOfWeek] = useState<string[]>([])
 	const [timestamp, setTimestamp] = useState<number[]>([])
@@ -54,6 +61,7 @@ export const Card = createSelectable<TAlbumProps>((props: TSelectableItemProps &
 	}
 
 	if (!(DISABLED_CARD_YEARS.includes(year) || DISABLED_CAUSE_TIME.includes(year) || DISABLED_LAST_HOUR.includes(year))) {
+		let send = [] 
 		let data = {
 			year: year,
 			index: listData.length,
@@ -61,11 +69,10 @@ export const Card = createSelectable<TAlbumProps>((props: TSelectableItemProps &
 			startHour: Math.floor(listData.length / 7),
 			endHour: Math.floor(listData.length / 7)+1
 		}
-		setListData(data)
+
+		send.push(data)
+		handleTimeData(send)
 	}
-
-	let dataDate = listData
-
 	return (
 		<div id="content-data" ref={selectableRef} className={classNames}>
 			{

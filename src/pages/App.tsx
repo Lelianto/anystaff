@@ -123,7 +123,7 @@ class App extends Component<TAppProps, TAppState> {
 							onSelectedItemUnmount={this.handleSelectedItemUnmount}
 							ignoreList={['.not-selectable', '.un-selectable']}
 						>
-							<List items={orderedItems} />
+							<List shifts={this.props.shifts} items={orderedItems} />
 						</SelectableGroup>
 					)}
 				</div>

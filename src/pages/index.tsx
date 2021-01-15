@@ -16,14 +16,19 @@ const ShiftPage = () => {
 	const shifts = useSelector((state: AppState) => state.shifts);
 	const [nameShift, setNameShift] = useState<string>('')
 	
-	const shiftItems = shifts.shifts.map((post: Shift) => (
-		<div style={{textAlign:"left"}} key={post.shiftId}>
-			<h1>{post.name}</h1>
-			<p>{post.date}</p>
-			<p>{post.startTime}</p>
-			<p>{post.endTime}</p>
-		</div>
-	));
+
+	try {
+		const shiftItems = shifts.shifts.map((post: Shift) => (
+			<div style={{textAlign:"left"}} key={post.shiftId}>
+				<h1>{post.name}</h1>
+				<p>{post.date}</p>
+				<p>{post.startTime}</p>
+				<p>{post.endTime}</p>
+			</div>
+		));
+	} catch (error) {
+		console.log('error', error)
+	}
 	
 	const addShift = async () => {
 		let data: object = {
