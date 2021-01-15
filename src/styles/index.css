@@ -141,6 +141,7 @@ button.btn:hover {
     flex-direction: column;
     vertical-align: top;
     width: 100% !important;
+    font-size: 24px;
 }
 
 .container-custom {
@@ -154,4 +155,15 @@ button.btn:hover {
   font-size: 30px;
   margin-bottom: 40px;
   font-weight: bold;
+}
+.button-setting {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.button-setting .MuiButton-containedPrimary {
+  width: 50%;
+  height: 50px;
+  font-size: 24px;
 }

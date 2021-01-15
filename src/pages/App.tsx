@@ -4,10 +4,8 @@ import { SelectableGroup } from 'react-selectable-fast';
 import { Counters } from './Counters';
 import { List } from './List';
 
-import Popover from '@material-ui/core/Popover';
-import TextField from '@material-ui/core/TextField';
+import AddCalendarPopper from './Popper';
 import '../styles/index.css'
-import Button from '@material-ui/core/Button';
 
 type TAppProps = {
 	items: TAlbumItem[],
@@ -18,7 +16,8 @@ type TAppState = {
 	disableFirstRow: boolean
 	reversed: boolean
 	showSelectableGroup: boolean,
-	anchorEl:boolean | null
+	anchorEl?: boolean | null | undefined,
+	selected?: any[]
 }
 
 class App extends Component<TAppProps, TAppState> {
@@ -26,7 +25,8 @@ class App extends Component<TAppProps, TAppState> {
 		disableFirstRow: false,
 		reversed: false,
 		showSelectableGroup: true,
-		anchorEl:null
+		anchorEl: null,
+		selected: []
 	}
 
 	countersRef = createRef<Counters>()
@@ -50,7 +50,6 @@ class App extends Component<TAppProps, TAppState> {
 	}
 
 	handleSelecting = (selectingItems: any) => {
-		console.log('selecting', selectingItems)
 		if (this.countersRef && this.countersRef.current) {
 			this.countersRef.current.handleSelecting(selectingItems)
 		}
@@ -70,12 +69,13 @@ class App extends Component<TAppProps, TAppState> {
 			})
 		})
 
-		console.log('hasil akhir ke API', selected)
+		this.setState({
+			selected: selected
+		})
 		this.handleClick()
 	}
 
 	handleSelectedItemUnmount = (_unmountedItem: any, selectedItems: string | any[]) => {
-		console.log('masuk')
 		if (this.countersRef && this.countersRef.current) { 
 			this.countersRef.current.handleSelectionFinish(selectedItems)
 		}
@@ -128,34 +128,7 @@ class App extends Component<TAppProps, TAppState> {
 					)}
 				</div>
 				<div>
-					<Popover
-						id="pop-over"
-						open={Boolean(this.state.anchorEl)}
-						anchorEl={this.state.anchorEl}
-						onClose={this.handleClose}
-						anchorOrigin={{
-							vertical: 'bottom',
-							horizontal: 'center',
-						}}
-						transformOrigin={{
-							vertical: 'top',
-							horizontal: 'center',
-						}}
-					>
-						<div className="container-custom">
-							<div className="row">
-								<div className="title-input">
-									StaffAny Calendar
-								</div>
-								<div className="handle-input">
-									<TextField id="outlined-basic" label="Input Your Activity" variant="outlined" />
-								</div>
-								<div>
-									<Button > Save Schedule </Button>
-								</div>
-							</div>
-						</div>
-					</Popover>
+					<AddCalendarPopper selected={this.state.selected} anchorEl={this.state.anchorEl} handleClose={this.handleClose} handleClick={this.handleClick}/>
 				</div>
 			</div>
 		)
